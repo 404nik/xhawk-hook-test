@@ -4,3 +4,4 @@ export class AuthService {}
   logout() { this.token = null; }
   refreshToken() { return fetch('/refresh'); }
   validateSession() { return !!this.token; }
+  hashPassword(p: string) { return crypto.hash(p); }
