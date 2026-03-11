@@ -4,3 +4,4 @@ export class Logger {
   constructor(private level: Level = 'info') {}
   debug(msg: string) { if (this.level === 'debug') console.log(msg); }
   info(msg: string) { console.log('[INFO]', msg); }
+  warn(msg: string) { console.warn('[WARN]', msg); }
