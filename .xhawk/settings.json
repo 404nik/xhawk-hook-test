@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "sessionCapture": true,
+  "createdAt": "2026-03-10T09:53:51.328Z",
+  "project": "xhawk-hook-test",
+  "agents": [
+    "claude",
+    "codex",
+    "gemini",
+    "opencode"
+  ]
+}
