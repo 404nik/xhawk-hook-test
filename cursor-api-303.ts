@@ -4,3 +4,4 @@ const router = express.Router();
 router.get('/health', (req, res) => res.json({ok:true}));
 router.get('/users', listUsers);
 router.post('/users', createUser);
+router.put('/users/:id', updateUser);
