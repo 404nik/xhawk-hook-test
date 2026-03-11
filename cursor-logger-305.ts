@@ -5,3 +5,4 @@ export class Logger {
   debug(msg: string) { if (this.level === 'debug') console.log(msg); }
   info(msg: string) { console.log('[INFO]', msg); }
   warn(msg: string) { console.warn('[WARN]', msg); }
+  error(msg: string, err?: Error) { console.error('[ERROR]', msg, err); }
