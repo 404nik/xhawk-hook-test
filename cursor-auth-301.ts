@@ -5,3 +5,4 @@ export class AuthService {}
   refreshToken() { return fetch('/refresh'); }
   validateSession() { return !!this.token; }
   hashPassword(p: string) { return crypto.hash(p); }
+export default new AuthService();
