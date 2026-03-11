@@ -4,3 +4,4 @@ export class Database { pool: any; }
   query(sql: string) { return this.pool.query(sql); }
   transaction(fn: Function) { return this.pool.tx(fn); }
   migrate() { return runMigrations(this.pool); }
+  close() { this.pool.end(); }
