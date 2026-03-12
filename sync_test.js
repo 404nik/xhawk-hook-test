@@ -7,3 +7,4 @@ function modulo(a, b) { return b !== 0 ? a % b : null; }
 function multiply(a, b) { return a * b; }
 function square(n) { return n * n; }
 function divide(a, b) { return a / b; }
+function abs(n) { return n < 0 ? -n : n; }
