@@ -5,3 +5,7 @@ function server_claude() {
 function server_opencode() {
     return "opencode_test";
 }
+
+function server_cursor() {
+    return "cursor_test";
+}
