@@ -1,0 +1,3 @@
+This is the first test file created by Claude.
+It contains sample content for testing purposes.
+Created on: 2026-03-17
