@@ -14,4 +14,19 @@ function addDays(date, n) {
   return result;
 }
 
-module.exports = { daysBetween, isWeekend, addDays };
+function formatDate(date, format) {
+  const yyyy = date.getFullYear().toString();
+  const mm = (date.getMonth() + 1).toString().padStart(2, '0');
+  const dd = date.getDate().toString().padStart(2, '0');
+  return format.replace('YYYY', yyyy).replace('MM', mm).replace('DD', dd);
+}
+
+function startOfWeek(date) {
+  const result = new Date(date);
+  const day = result.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  result.setDate(result.getDate() + diff);
+  return result;
+}
+
+module.exports = { daysBetween, isWeekend, addDays, formatDate, startOfWeek };

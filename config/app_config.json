@@ -1,0 +1,8 @@
+{
+  "version": "2.0.0",
+  "features": {
+    "array_utils": true,
+    "date_utils": true
+  },
+  "author": "claude-exhaustive-test"
+}
