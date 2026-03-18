@@ -1,3 +1,9 @@
+/**
+ * @module array_utils
+ * @description Utility functions for common array operations including
+ * flattening, deduplication, chunking, and grouping.
+ */
+
 function flattenArray(arr) {
   return [].concat(...arr);
 }
