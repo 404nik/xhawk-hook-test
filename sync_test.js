@@ -24,6 +24,19 @@ function isPrime(n) {
   return true;
 }
 
+function factorial(n) {
+  n = Number(n);
+  if (!Number.isInteger(n) || n < 0) return null;
+  let result = 1;
+  for (let i = 2; i <= n; i++) result *= i;
+  return result;
+}
+
+function lcm(a, b) {
+  if (a === 0 && b === 0) return 0;
+  return Math.abs(a * b) / gcd(a, b);
+}
+
 function clamp(x, lo, hi) {
   return Math.min(hi, Math.max(lo, x));
 }
@@ -150,6 +163,8 @@ module.exports = {
   add,
   gcd,
   isPrime,
+  factorial,
+  lcm,
   clamp,
   fibonacciModulo,
   standardDeviation,
