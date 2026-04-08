@@ -1,1 +1,21 @@
  Hello Agent ! 
+
+Rate Limiter (Simple Pseudocode):
+
+```pseudo
+max_requests = 5
+window_seconds = 60
+requests = map<user, list_of_timestamps>
+
+function allow_request(user, now):
+    remove timestamps older than (now - window_seconds) from requests[user]
+    if length(requests[user]) < max_requests:
+        add now to requests[user]
+        return ALLOW
+    return BLOCK
+```
+
+Simple explanation:
+A rate limiter controls how many requests a user can make in a time window.
+In this example, each user can make 5 requests per 60 seconds.
+If the user is under the limit, request is allowed; otherwise it is blocked.
