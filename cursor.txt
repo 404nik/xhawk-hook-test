@@ -1,0 +1,25 @@
+ Hello Agent ! 
+
+Explanation
+
+A rate limiter lets you allow only so many actions per time window (for example, API calls per minute). If a caller is over the limit, you reject, delay, or drop the extra work until the window resets or tokens refill.
+
+```
+// Simple fixed-window pseudocode
+state:
+  window_start = 0
+  count = 0
+  limit = 100        // max events per window
+  window_seconds = 60
+
+function allow_request(now):
+  if now - window_start >= window_seconds:
+    window_start = now
+    count = 0
+  if count >= limit:
+    return REJECT   // over limit; try again later
+  count += 1
+  return OK
+```
+
+• Updating codex

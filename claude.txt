@@ -1,0 +1,28 @@
+ Hello Agent !
+
+--- Rate Limiter Explanation ---
+
+A rate limiter controls how many requests a client can make in a given time window.
+
+Pseudocode:
+
+```
+BUCKET_CAPACITY = 10
+REFILL_RATE = 1 token per second
+
+function handle_request(client_id):
+    bucket = get_bucket(client_id)
+    refill_tokens(bucket, elapsed_time)
+
+    if bucket.tokens >= 1:
+        bucket.tokens -= 1
+        return ALLOW
+    else:
+        return REJECT  // 429 Too Many Requests
+```
+
+How it works:
+- Each client gets a "bucket" that holds tokens (max = BUCKET_CAPACITY).
+- Tokens refill over time at REFILL_RATE.
+- Each request costs 1 token. If the bucket is empty, the request is rejected.
+- This prevents any single client from overwhelming the server.
