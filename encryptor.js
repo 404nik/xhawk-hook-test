@@ -1,4 +1,5 @@
 const crypto = require("crypto");
+const logger = require("./logger");
 
 const ALGORITHM = "aes-256-gcm";
 const IV_LENGTH = 16;
@@ -12,6 +13,8 @@ function deriveKey(password, salt) {
 }
 
 function encrypt(plaintext, password) {
+  logger.debug("Encrypting data", { plaintextLength: plaintext.length });
+  
   const salt = crypto.randomBytes(SALT_LENGTH);
   const key = deriveKey(password, salt);
   const iv = crypto.randomBytes(IV_LENGTH);
@@ -20,10 +23,15 @@ function encrypt(plaintext, password) {
   const encrypted = Buffer.concat([cipher.update(plaintext, "utf8"), cipher.final()]);
   const tag = cipher.getAuthTag();
 
-  return Buffer.concat([salt, iv, tag, encrypted]).toString("base64");
+  const result = Buffer.concat([salt, iv, tag, encrypted]).toString("base64");
+  logger.debug("Encryption completed", { encryptedLength: result.length });
+  
+  return result;
 }
 
 function decrypt(encoded, password) {
+  logger.debug("Decrypting data", { encodedLength: encoded.length });
+  
   const data = Buffer.from(encoded, "base64");
 
   const salt = data.subarray(0, SALT_LENGTH);
@@ -35,7 +43,10 @@ function decrypt(encoded, password) {
   const decipher = crypto.createDecipheriv(ALGORITHM, key, iv);
   decipher.setAuthTag(tag);
 
-  return decipher.update(encrypted) + decipher.final("utf8");
+  const decrypted = decipher.update(encrypted) + decipher.final("utf8");
+  logger.debug("Decryption completed", { decryptedLength: decrypted.length });
+  
+  return decrypted;
 }
 
 module.exports = { encrypt, decrypt };
