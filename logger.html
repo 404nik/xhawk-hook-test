@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logger - xHawk Hook Test</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header {
+      width: 100%;
+      padding: 2rem;
+      text-align: center;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      border-bottom: 2px solid #0f3460;
+    }
+    header h1 {
+      font-size: 2.2rem;
+      background: linear-gradient(90deg, #4ade80, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    header p { margin-top: 0.5rem; color: #888; }
+    .container { max-width: 800px; width: 100%; padding: 2rem; }
+    section { margin-top: 2rem; }
+    section h2 {
+      color: #4ade80;
+      font-size: 1.4rem;
+      margin-bottom: 0.75rem;
+      border-bottom: 1px solid #222;
+      padding-bottom: 0.5rem;
+    }
+    section p {
+      color: #999;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    pre {
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #c9d1d9;
+      margin-bottom: 1.5rem;
+    }
+    .keyword { color: #ff7b72; }
+    .string { color: #a5d6ff; }
+    .comment { color: #555; }
+    .func { color: #d2a8ff; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.5rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th { color: #4ade80; font-size: 0.85rem; text-transform: uppercase; }
+    td { color: #999; font-size: 0.9rem; }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .badge-debug { background: #1e3a5f; color: #60a5fa; }
+    .badge-info { background: #14532d; color: #4ade80; }
+    .badge-warn { background: #422006; color: #fbbf24; }
+    .badge-error { background: #450a0a; color: #f87171; }
+    a { color: #e94560; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    footer {
+      margin-top: auto;
+      padding: 2rem;
+      color: #555;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Telemetry Logger</h1>
+    <p>Structured JSON logging for xHawk Hook Test</p>
+  </header>
+
+  <div class="container">
+    <section>
+      <h2>Overview</h2>
+      <p>
+        The logger provides structured JSON output with ISO timestamps, log levels, and process metadata.
+        It's designed for tracing telemetry data in Next.js applications and can also serve as
+        middleware for HTTP request logging.
+      </p>
+    </section>
+
+    <section>
+      <h2>Log Levels</h2>
+      <table>
+        <thead>
+          <tr><th>Level</th><th>Value</th><th>Use Case</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="badge badge-debug">DEBUG</span></td><td>0</td><td>Verbose development output</td></tr>
+          <tr><td><span class="badge badge-info">INFO</span></td><td>1</td><td>General application events</td></tr>
+          <tr><td><span class="badge badge-warn">WARN</span></td><td>2</td><td>Potential issues or deprecations</td></tr>
+          <tr><td><span class="badge badge-error">ERROR</span></td><td>3</td><td>Failures and exceptions</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Basic Usage</h2>
+<pre><span class="keyword">const</span> logger = <span class="func">require</span>(<span class="string">'./logger'</span>);
+
+<span class="comment">// Simple logging</span>
+logger.<span class="func">info</span>(<span class="string">"Server started"</span>, { port: <span class="string">3000</span> });
+logger.<span class="func">warn</span>(<span class="string">"Slow query"</span>, { durationMs: <span class="string">1200</span> });
+logger.<span class="func">error</span>(<span class="string">"Connection failed"</span>, { host: <span class="string">"db.internal"</span> });</pre>
+    </section>
+
+    <section>
+      <h2>Telemetry Events</h2>
+      <p>Use the dedicated <code>telemetry()</code> method to log structured telemetry data with event names and metadata.</p>
+<pre><span class="comment">// Track telemetry events</span>
+logger.<span class="func">telemetry</span>(<span class="string">"page_view"</span>, {
+  path: <span class="string">"/dashboard"</span>,
+  userId: <span class="string">"user_abc"</span>,
+  sessionId: <span class="string">"sess_123"</span>
+});
+
+logger.<span class="func">telemetry</span>(<span class="string">"commit_traced"</span>, {
+  commitHash: <span class="string">"078e1cf"</span>,
+  branch: <span class="string">"test/session-traces-v2"</span>
+});</pre>
+    </section>
+
+    <section>
+      <h2>Request Middleware</h2>
+      <p>Attach <code>requestLogger</code> as middleware to log every incoming request and its response time.</p>
+<pre><span class="keyword">const</span> { requestLogger } = <span class="func">require</span>(<span class="string">'./logger'</span>);
+
+<span class="comment">// Express / Next.js custom server</span>
+app.<span class="func">use</span>(requestLogger);</pre>
+    </section>
+
+    <section>
+      <h2>Sample Output</h2>
+<pre>{
+  <span class="string">"timestamp"</span>: <span class="string">"2026-04-12T10:30:00.000Z"</span>,
+  <span class="string">"level"</span>: <span class="string">"INFO"</span>,
+  <span class="string">"message"</span>: <span class="string">"[TELEMETRY] page_view"</span>,
+  <span class="string">"data"</span>: {
+    <span class="string">"event"</span>: <span class="string">"page_view"</span>,
+    <span class="string">"path"</span>: <span class="string">"/dashboard"</span>,
+    <span class="string">"userId"</span>: <span class="string">"user_abc"</span>
+  },
+  <span class="string">"pid"</span>: <span class="string">12345</span>
+}</pre>
+    </section>
+
+    <p style="margin-top: 2rem;"><a href="index.html">&larr; Back to xHawk Hook Test</a></p>
+  </div>
+
+  <footer>xHawk Hook Test &mdash; Logger Documentation</footer>
+</body>
+</html>

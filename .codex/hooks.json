@@ -1,0 +1,27 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "xh _memory-hook session-start --agent codex",
+            "timeout": 5
+          }
+        ],
+        "matcher": "startup|resume"
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "xh _memory-hook prompt-submit --agent codex",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}
