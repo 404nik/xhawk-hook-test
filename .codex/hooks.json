@@ -1,4 +1,3 @@
-
 {
   "hooks": {
     "SessionStart": [
@@ -20,17 +19,6 @@
             "type": "command",
             "command": "xh _memory-hook prompt-submit --agent codex",
             "timeout": 5
-          }
-        ]
-      }
-    ],
-    "SessionEnd": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "xh _memory-hook session-end --agent codex",
-            "timeout": 10
           }
         ]
       }
